@@ -47,7 +47,7 @@ func getSession() *discordgo.Session {
 	return session
 }
 
-func hello(w http.ResponseWriter, req *http.Request) {
+func webhookHandler(w http.ResponseWriter, req *http.Request) {
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Printf("[ERROR] %s", err.Error())
@@ -83,7 +83,7 @@ func Run() {
 		address = a
 	}
 
-	http.HandleFunc("/webhook", hello)
+	http.HandleFunc("/webhook", webhookHandler)
 	log.Printf("Server listening on %s", address)
 	if err := http.ListenAndServe(address, nil); err != nil {
 		log.Printf("[ERROR] %s", err.Error())
