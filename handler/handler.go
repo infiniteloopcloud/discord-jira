@@ -68,6 +68,14 @@ func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		AddField("Priority:", issue.Issue.Fields.Priority.Name).
 		SetColor(created)
 
+	if issue.Issue.Fields.Type.Description != "" {
+		if len(issue.Issue.Fields.Type.Description) > 200 {
+			message = message.AddField("Description", issue.Issue.Fields.Type.Description[0:199] + "...")
+		} else {
+			message = message.AddField("Description", issue.Issue.Fields.Type.Description)
+		}
+	}
+
 	if issue.Issue.Key != "" {
 		message = message.SetURL(baseURL + issue.Issue.Key)
 	}
@@ -109,6 +117,14 @@ func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		AddField("Issue type:", issue.Issue.Fields.Type.Name).
 		AddField("Priority:", issue.Issue.Fields.Priority.Name).
 		SetColor(updated)
+
+	if issue.Issue.Fields.Type.Description != "" {
+		if len(issue.Issue.Fields.Type.Description) > 200 {
+			message = message.AddField("Description", issue.Issue.Fields.Type.Description[0:199] + "...")
+		} else {
+			message = message.AddField("Description", issue.Issue.Fields.Type.Description)
+		}
+	}
 
 	if issue.Issue.Key != "" {
 		message = message.SetURL(baseURL + issue.Issue.Key)
