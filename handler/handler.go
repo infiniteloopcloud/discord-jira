@@ -68,11 +68,11 @@ func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		AddField("Priority:", issue.Issue.Fields.Priority.Name).
 		SetColor(created)
 
-	if issue.Issue.Fields.Type.Description != "" {
-		if len(issue.Issue.Fields.Type.Description) > 200 {
-			message = message.AddField("Description", issue.Issue.Fields.Type.Description[0:199] + "...")
+	if issue.Issue.Fields.Description != "" {
+		if len(issue.Issue.Fields.Description) > 200 {
+			message = message.AddField("Description", issue.Issue.Fields.Description[0:199] + "...")
 		} else {
-			message = message.AddField("Description", issue.Issue.Fields.Type.Description)
+			message = message.AddField("Description", issue.Issue.Fields.Description)
 		}
 	}
 
@@ -118,11 +118,11 @@ func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		AddField("Priority:", issue.Issue.Fields.Priority.Name).
 		SetColor(updated)
 
-	if issue.Issue.Fields.Type.Description != "" {
-		if len(issue.Issue.Fields.Type.Description) > 200 {
-			message = message.AddField("Description", issue.Issue.Fields.Type.Description[0:199] + "...")
+	if issue.Issue.Fields.Description != "" {
+		if len(issue.Issue.Fields.Description) > 200 {
+			message = message.AddField("Description", issue.Issue.Fields.Description[0:199] + "...")
 		} else {
-			message = message.AddField("Description", issue.Issue.Fields.Type.Description)
+			message = message.AddField("Description", issue.Issue.Fields.Description)
 		}
 	}
 
