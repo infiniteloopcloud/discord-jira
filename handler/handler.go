@@ -131,10 +131,9 @@ func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 
 	if comment.Comment.Body != "" {
 		if len(comment.Comment.Body) > 200 {
-			desc := comment.Comment.Body[0:199] + "..."
-			message = message.AddField("Content", "**"+desc+"**")
+			message = message.AddField("Content", comment.Comment.Body[0:199] + "...")
 		} else {
-			message = message.AddField("Content", "**"+comment.Comment.Body+"**")
+			message = message.AddField("Content", comment.Comment.Body)
 		}
 	}
 
@@ -178,10 +177,9 @@ func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 
 	if comment.Comment.Body != "" {
 		if len(comment.Comment.Body) > 200 {
-			desc := comment.Comment.Body[0:199] + "..."
-			message = message.AddField("Content", "**"+desc+"**")
+			message = message.AddField("Content", comment.Comment.Body[0:199] + "...")
 		} else {
-			message = message.AddField("Content", "**"+comment.Comment.Body+"**")
+			message = message.AddField("Content", comment.Comment.Body)
 		}
 	}
 
