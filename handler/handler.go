@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 
 	embed "github.com/Clinet/discordgo-embed"
 	"github.com/bwmarrin/discordgo"
@@ -38,7 +37,6 @@ func GetEvent(raw []byte) (Issue, error) {
 }
 
 func Handle(eventType string, body []byte) (string, *discordgo.MessageEmbed, error) {
-	fmt.Println(eventType)
 	switch eventType {
 	case "jira:issue_created":
 		return issueCreated(body)
@@ -71,7 +69,7 @@ func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		SetColor(created)
 
 	if issue.Issue.Key != "" {
-		message = message.SetURL(baseURL+issue.Issue.Key)
+		message = message.SetURL(baseURL + issue.Issue.Key)
 	}
 
 	return issue.Issue.Fields.Summary, message.MessageEmbed, nil
@@ -92,7 +90,7 @@ func issueDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		SetColor(deleted)
 
 	if issue.Issue.Key != "" {
-		message = message.SetURL(baseURL+issue.Issue.Key)
+		message = message.SetURL(baseURL + issue.Issue.Key)
 	}
 
 	return issue.Issue.Fields.Summary, message.MessageEmbed, nil
@@ -113,7 +111,7 @@ func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		SetColor(updated)
 
 	if issue.Issue.Key != "" {
-		message = message.SetURL(baseURL+issue.Issue.Key)
+		message = message.SetURL(baseURL + issue.Issue.Key)
 	}
 
 	return issue.Issue.Fields.Summary, message.MessageEmbed, nil
@@ -141,7 +139,7 @@ func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 	}
 
 	if comment.Issue.Key != "" {
-		message = message.SetURL(baseURL+comment.Issue.Key)
+		message = message.SetURL(baseURL + comment.Issue.Key)
 	}
 
 	return comment.Issue.Fields.Summary, message.MessageEmbed, nil
@@ -160,7 +158,7 @@ func commentDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		SetColor(deleted)
 
 	if comment.Issue.Key != "" {
-		message = message.SetURL(baseURL+comment.Issue.Key)
+		message = message.SetURL(baseURL + comment.Issue.Key)
 	}
 
 	return comment.Issue.Fields.Summary, message.MessageEmbed, nil
@@ -188,7 +186,7 @@ func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 	}
 
 	if comment.Issue.Key != "" {
-		message = message.SetURL(baseURL+comment.Issue.Key)
+		message = message.SetURL(baseURL + comment.Issue.Key)
 	}
 
 	return comment.Issue.Fields.Summary, message.MessageEmbed, nil
