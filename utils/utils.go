@@ -3,7 +3,6 @@ package utils
 import (
 	"encoding/json"
 	"log"
-	"os"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/infiniteloopcloud/discord-jira/env"
@@ -30,7 +29,7 @@ func GetChannelID(name string) string {
 	if id, ok := channelsCache[name]; ok {
 		return id
 	} else {
-		channels, err := GetSession().GuildChannels(os.Getenv(env.GuildID))
+		channels, err := GetSession().GuildChannels(env.Configuration().BotGuild)
 		if err != nil {
 			log.Print(err)
 		}
@@ -47,7 +46,7 @@ func GetChannelID(name string) string {
 func GetSession() *discordgo.Session {
 	if session == nil {
 		var err error
-		session, err = discordgo.New("Bot " + os.Getenv(env.Token))
+		session, err = discordgo.New("Bot " + env.Configuration().BotToken)
 		if err != nil {
 			log.Printf("[ERROR] %s", err.Error())
 		}
