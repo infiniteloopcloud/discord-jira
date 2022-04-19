@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"strings"
 
 	embed "github.com/Clinet/discordgo-embed"
 	"github.com/bwmarrin/discordgo"
@@ -26,6 +27,8 @@ const (
 	deleted = 0xD10000
 	updated = 0x0047AB
 )
+
+var channelName string
 
 func Handle(eventType string, body []byte) (string, *discordgo.MessageEmbed, error) {
 	switch eventType {
@@ -61,7 +64,7 @@ func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 
 	if issue.Issue.Fields.Description != "" {
 		if len(issue.Issue.Fields.Description) > 200 {
-			message = message.AddField("Description", issue.Issue.Fields.Description[0:199] + "...")
+			message = message.AddField("Description", issue.Issue.Fields.Description[0:199]+"...")
 		} else {
 			message = message.AddField("Description", issue.Issue.Fields.Description)
 		}
@@ -71,7 +74,8 @@ func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(baseURL + issue.Issue.Key)
 	}
 
-	return issue.Issue.Fields.Summary, message.MessageEmbed, nil
+	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
+	return channelName, message.MessageEmbed, nil
 }
 
 func issueDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
@@ -92,7 +96,8 @@ func issueDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(baseURL + issue.Issue.Key)
 	}
 
-	return issue.Issue.Fields.Summary, message.MessageEmbed, nil
+	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
+	return channelName, message.MessageEmbed, nil
 }
 
 func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
@@ -111,7 +116,7 @@ func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 
 	if issue.Issue.Fields.Description != "" {
 		if len(issue.Issue.Fields.Description) > 200 {
-			message = message.AddField("Description", issue.Issue.Fields.Description[0:199] + "...")
+			message = message.AddField("Description", issue.Issue.Fields.Description[0:199]+"...")
 		} else {
 			message = message.AddField("Description", issue.Issue.Fields.Description)
 		}
@@ -121,7 +126,8 @@ func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(baseURL + issue.Issue.Key)
 	}
 
-	return issue.Issue.Fields.Summary, message.MessageEmbed, nil
+	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
+	return channelName, message.MessageEmbed, nil
 }
 
 func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
@@ -138,7 +144,7 @@ func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 
 	if comment.Comment.Body != "" {
 		if len(comment.Comment.Body) > 200 {
-			message = message.AddField("Content", comment.Comment.Body[0:199] + "...")
+			message = message.AddField("Content", comment.Comment.Body[0:199]+"...")
 		} else {
 			message = message.AddField("Content", comment.Comment.Body)
 		}
@@ -148,7 +154,8 @@ func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(baseURL + comment.Issue.Key)
 	}
 
-	return comment.Issue.Fields.Summary, message.MessageEmbed, nil
+	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
+	return channelName, message.MessageEmbed, nil
 }
 
 func commentDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
@@ -167,7 +174,8 @@ func commentDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(baseURL + comment.Issue.Key)
 	}
 
-	return comment.Issue.Fields.Summary, message.MessageEmbed, nil
+	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
+	return channelName, message.MessageEmbed, nil
 }
 
 func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
@@ -184,7 +192,7 @@ func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 
 	if comment.Comment.Body != "" {
 		if len(comment.Comment.Body) > 200 {
-			message = message.AddField("Content", comment.Comment.Body[0:199] + "...")
+			message = message.AddField("Content", comment.Comment.Body[0:199]+"...")
 		} else {
 			message = message.AddField("Content", comment.Comment.Body)
 		}
@@ -194,5 +202,6 @@ func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(baseURL + comment.Issue.Key)
 	}
 
-	return comment.Issue.Fields.Summary, message.MessageEmbed, nil
+	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
+	return channelName, message.MessageEmbed, nil
 }

@@ -32,6 +32,7 @@ func webhookHandler(w http.ResponseWriter, req *http.Request) {
 	if channelID == "" {
 		channelID = utils.GetChannelID("unknown")
 	}
+	fmt.Println(channel, channelID)
 	if channelID != "" && message != nil {
 		_, err = utils.GetSession().ChannelMessageSendEmbed(channelID, message)
 		if err != nil {
