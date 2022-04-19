@@ -5,7 +5,7 @@ import (
 
 	embed "github.com/Clinet/discordgo-embed"
 	"github.com/bwmarrin/discordgo"
-	jira "github.com/infiniteloopcloud/jira-dc-bot/jira"
+	jira "github.com/infiniteloopcloud/discord-jira/jira"
 )
 
 type Issue struct {
@@ -26,15 +26,6 @@ const (
 	deleted = 0xD10000
 	updated = 0x0047AB
 )
-
-func GetEvent(raw []byte) (Issue, error) {
-	var issue Issue
-	err := json.Unmarshal(raw, &issue)
-	if err != nil {
-		return Issue{}, err
-	}
-	return issue, nil
-}
 
 func Handle(eventType string, body []byte) (string, *discordgo.MessageEmbed, error) {
 	switch eventType {

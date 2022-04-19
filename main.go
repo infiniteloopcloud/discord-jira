@@ -2,7 +2,7 @@ package main
 
 import (
 
-	runner "github.com/infiniteloopcloud/jira-dc-bot/runner"
+	runner "github.com/infiniteloopcloud/discord-jira/runner"
 )
 
 func main() {

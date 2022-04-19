@@ -6,6 +6,7 @@ type Issue struct {
 }
 
 type IssueFields struct {
+	Description string `json:"description,omitempty" structs:"description,omitempty"`
 	Type     IssueType `json:"issuetype,omitempty" structs:"issuetype,omitempty"`
 	Project  Project   `json:"project,omitempty" structs:"project,omitempty"`
 	Priority Priority  `json:"priority,omitempty" structs:"priority,omitempty"`
@@ -13,7 +14,7 @@ type IssueFields struct {
 }
 
 type IssueType struct {
-	Name string `json:"name,omitempty" structs:"name,omitempty"`
+	Name        string `json:"name,omitempty" structs:"name,omitempty"`
 }
 
 type Project struct {
