@@ -9,7 +9,7 @@ import (
 
 var (
 	configuration *Static
-	PATH          string = "JIRA_BOT_CONFIG"
+	ConfigFlag    string = "JIRA_BOT_CONFIG"
 )
 
 type Static struct {
@@ -20,8 +20,11 @@ type Static struct {
 }
 
 func Configuration() *Static {
-	path := os.Getenv(PATH)
 	if configuration == nil {
+		var path string
+		if path = os.Getenv(ConfigFlag); path == "" {
+			path = "./config.json"
+		}
 		// read from path
 		var s Static
 		// json unmarshal into s
