@@ -14,7 +14,6 @@ var (
 
 type Static struct {
 	BaseURL              string `json:"base_url"`
-	SkipRepoPushMessages string `json:"skip_repo_push_message"`
 	BotToken             string `json:"bot_token"`
 	BotGuild             string `json:"bot_guild"`
 	Address              string `json:"address"`
