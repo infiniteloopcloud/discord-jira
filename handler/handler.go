@@ -6,6 +6,7 @@ import (
 
 	embed "github.com/Clinet/discordgo-embed"
 	"github.com/bwmarrin/discordgo"
+	"github.com/infiniteloopcloud/discord-jira/env"
 	jira "github.com/infiniteloopcloud/discord-jira/jira"
 )
 
@@ -22,7 +23,6 @@ type Comment struct {
 }
 
 const (
-	baseURL = "https://qwerkocka.atlassian.net/browse/"
 	created = 0x90EE90
 	deleted = 0xD10000
 	updated = 0x0047AB
@@ -71,7 +71,7 @@ func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 	}
 
 	if issue.Issue.Key != "" {
-		message = message.SetURL(baseURL + issue.Issue.Key)
+		message = message.SetURL(env.Configuration().BaseURL + issue.Issue.Key)
 	}
 
 	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
@@ -93,7 +93,7 @@ func issueDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		SetColor(deleted)
 
 	if issue.Issue.Key != "" {
-		message = message.SetURL(baseURL + issue.Issue.Key)
+		message = message.SetURL(env.Configuration().BaseURL + issue.Issue.Key)
 	}
 
 	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
@@ -123,7 +123,7 @@ func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 	}
 
 	if issue.Issue.Key != "" {
-		message = message.SetURL(baseURL + issue.Issue.Key)
+		message = message.SetURL(env.Configuration().BaseURL + issue.Issue.Key)
 	}
 
 	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
@@ -151,7 +151,7 @@ func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 	}
 
 	if comment.Issue.Key != "" {
-		message = message.SetURL(baseURL + comment.Issue.Key)
+		message = message.SetURL(env.Configuration().BaseURL + comment.Issue.Key)
 	}
 
 	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
@@ -171,7 +171,7 @@ func commentDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		SetColor(deleted)
 
 	if comment.Issue.Key != "" {
-		message = message.SetURL(baseURL + comment.Issue.Key)
+		message = message.SetURL(env.Configuration().BaseURL + comment.Issue.Key)
 	}
 
 	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
@@ -199,7 +199,7 @@ func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 	}
 
 	if comment.Issue.Key != "" {
-		message = message.SetURL(baseURL + comment.Issue.Key)
+		message = message.SetURL(env.Configuration().BaseURL + comment.Issue.Key)
 	}
 
 	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
