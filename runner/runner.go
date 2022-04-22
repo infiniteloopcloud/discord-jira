@@ -42,6 +42,8 @@ func webhookHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func Run() {
+	env.Configuration().Dump()
+
 	address := ":8080"
 	if a := env.Configuration().Address; a != "" {
 		address = a
