@@ -13,5 +13,5 @@ jobs:
           password: ${{ secrets.TOKEN }}
       - name: Build the discord-jira Docker image
         run: |
-          docker build . --tag ghcr.io/infiniteloopcloud/discord-jira:latest
-          docker push ghcr.io/infiniteloopcloud/discord-jira:latest
+          docker build . --tag ghcr.io/infiniteloopcloud/discord-jira:${GITHUB_REF/refs\/tags\//}
+          docker push ghcr.io/infiniteloopcloud/discord-jira:${GITHUB_REF/refs\/tags\//}
