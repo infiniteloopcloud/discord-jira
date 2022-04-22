@@ -6,6 +6,7 @@ ENV CGO_ENABLED=0
 ENV GO111MODULE=on
 
 COPY go.mod ./
+RUN go get
 RUN go mod vendor
 COPY . .
 
