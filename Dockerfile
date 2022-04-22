@@ -5,10 +5,9 @@ WORKDIR /app
 ENV CGO_ENABLED=0
 ENV GO111MODULE=on
 
-COPY go.mod ./
+COPY . .
 RUN go get
 RUN go mod vendor
-COPY . .
 
 RUN go build -o /app/main .
 
