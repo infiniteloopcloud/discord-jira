@@ -25,18 +25,18 @@ func Configuration() *Static {
 		if path = os.Getenv(ConfigFlag); path == "" {
 			path = "./config.json"
 		}
-		// read from path
-		var s Static
-		// json unmarshal into s
-		configuration = &s
 
 		file, err := ioutil.ReadFile(path)
 		if err != nil {
-			log.Printf("[ERROR] %s", err.Error())
+			log.Printf("[ERROR] %s\n", err.Error())
+			return nil
 		}
-
-		json.Unmarshal(file, &configuration)
-
+		var s Static
+		if err := json.Unmarshal(file, &s); err != nil {
+			log.Printf("[ERROR] unmarshal file: %s", err.Error())
+			return nil
+		}
+		configuration = &s
 	}
 	return configuration
 }

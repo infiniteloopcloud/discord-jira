@@ -16,5 +16,6 @@
 
 go.sum
 config.json
+docker-compose.yaml
 .idea
 JSONs

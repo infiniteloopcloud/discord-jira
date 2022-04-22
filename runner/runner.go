@@ -41,8 +41,14 @@ func webhookHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "ACK")
 }
 
+func healthCheckHandler(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "ACK")
+}
+
 func Run() {
-	env.Configuration().Dump()
+	if cfg := env.Configuration(); cfg != nil {
+		cfg.Dump()
+	}
 
 	address := ":8080"
 	if a := env.Configuration().Address; a != "" {
@@ -50,6 +56,7 @@ func Run() {
 	}
 
 	http.HandleFunc("/webhook", webhookHandler)
+	http.HandleFunc("/hc", healthCheckHandler)
 	log.Printf("Server listening on %s", address)
 	if err := http.ListenAndServe(address, nil); err != nil {
 		log.Printf("[ERROR] %s", err.Error())
