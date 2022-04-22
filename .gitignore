@@ -16,6 +16,6 @@
 
 go.mod
 go.sum
-env/config.json
+config.json
 
 JSONs
