@@ -14,5 +14,4 @@ jobs:
       - name: Build the discord-jira Docker image
         run: |
           docker build . --tag ghcr.io/infiniteloopcloud/discord-jira:latest
-          docker run ghcr.io/infiniteloopcloud/discord-jira:latest
           docker push ghcr.io/infiniteloopcloud/discord-jira:latest
