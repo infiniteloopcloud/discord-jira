@@ -3,21 +3,21 @@ package utils
 import (
 	"encoding/json"
 	"log"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/infiniteloopcloud/discord-jira/env"
-	handler "github.com/infiniteloopcloud/discord-jira/handler"
+	"github.com/infiniteloopcloud/discord-jira/jira"
 )
-
 
 var session *discordgo.Session
 var channelsCache map[string]string
 
-func GetEvent(raw []byte) (handler.Issue, error) {
-	var issue handler.Issue
+func GetEvent(raw []byte) (jira.IssueWrapper, error) {
+	var issue jira.IssueWrapper
 	err := json.Unmarshal(raw, &issue)
 	if err != nil {
-		return handler.Issue{}, err
+		return jira.IssueWrapper{}, err
 	}
 	return issue, nil
 }
@@ -34,8 +34,8 @@ func GetChannelID(name string) string {
 			log.Print(err)
 		}
 		for _, channel := range channels {
-			if name == channel.Name {
-				channelsCache[channel.Name] = channel.ID
+			if name == NormalizeChannelName(channel.Name) {
+				channelsCache[NormalizeChannelName(channel.Name)] = channel.ID
 				return channel.ID
 			}
 		}
@@ -52,4 +52,8 @@ func GetSession() *discordgo.Session {
 		}
 	}
 	return session
+}
+
+func NormalizeChannelName(str string) string {
+	return strings.ToLower(strings.Replace(str, " ", "-", -1))
 }

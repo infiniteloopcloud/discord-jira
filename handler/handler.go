@@ -2,33 +2,19 @@ package handler
 
 import (
 	"encoding/json"
-	"strings"
 
 	embed "github.com/Clinet/discordgo-embed"
 	"github.com/bwmarrin/discordgo"
 	"github.com/infiniteloopcloud/discord-jira/env"
-	jira "github.com/infiniteloopcloud/discord-jira/jira"
+	"github.com/infiniteloopcloud/discord-jira/jira"
+	"github.com/infiniteloopcloud/discord-jira/utils"
 )
-
-type Issue struct {
-	EventType string      `json:"webhookEvent"`
-	Issue     *jira.Issue `json:"issue"`
-	User      *jira.User  `json:"user"`
-}
-
-type Comment struct {
-	EventType string        `json:"webhookEvent"`
-	Issue     *jira.Issue   `json:"issue"`
-	Comment   *jira.Comment `json:"comment"`
-}
 
 const (
 	created = 0x90EE90
 	deleted = 0xD10000
 	updated = 0x0047AB
 )
-
-var channelName string
 
 func Handle(eventType string, body []byte) (string, *discordgo.MessageEmbed, error) {
 	switch eventType {
@@ -49,7 +35,7 @@ func Handle(eventType string, body []byte) (string, *discordgo.MessageEmbed, err
 }
 
 func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
-	var issue Issue
+	var issue jira.IssueWrapper
 	err := json.Unmarshal(body, &issue)
 	if err != nil {
 		return "", nil, err
@@ -74,12 +60,11 @@ func issueCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(env.Configuration().BaseURL + issue.Issue.Key)
 	}
 
-	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
-	return channelName, message.MessageEmbed, nil
+	return utils.NormalizeChannelName(issue.Issue.Fields.Project.Name), message.MessageEmbed, nil
 }
 
 func issueDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
-	var issue Issue
+	var issue jira.IssueWrapper
 	err := json.Unmarshal(body, &issue)
 	if err != nil {
 		return "", nil, err
@@ -96,12 +81,11 @@ func issueDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(env.Configuration().BaseURL + issue.Issue.Key)
 	}
 
-	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
-	return channelName, message.MessageEmbed, nil
+	return utils.NormalizeChannelName(issue.Issue.Fields.Project.Name), message.MessageEmbed, nil
 }
 
 func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
-	var issue Issue
+	var issue jira.IssueWrapper
 	err := json.Unmarshal(body, &issue)
 	if err != nil {
 		return "", nil, err
@@ -126,12 +110,11 @@ func issueUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(env.Configuration().BaseURL + issue.Issue.Key)
 	}
 
-	channelName = strings.Replace(issue.Issue.Fields.Project.Name, " ", "-", 3)
-	return channelName, message.MessageEmbed, nil
+	return utils.NormalizeChannelName(issue.Issue.Fields.Project.Name), message.MessageEmbed, nil
 }
 
 func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
-	var comment Comment
+	var comment jira.CommentWrapper
 	err := json.Unmarshal(body, &comment)
 	if err != nil {
 		return "", nil, err
@@ -154,12 +137,11 @@ func commentCreated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(env.Configuration().BaseURL + comment.Issue.Key)
 	}
 
-	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
-	return channelName, message.MessageEmbed, nil
+	return utils.NormalizeChannelName(comment.Issue.Fields.Project.Name), message.MessageEmbed, nil
 }
 
 func commentDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
-	var comment Comment
+	var comment jira.CommentWrapper
 	err := json.Unmarshal(body, &comment)
 	if err != nil {
 		return "", nil, err
@@ -174,12 +156,11 @@ func commentDeleted(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(env.Configuration().BaseURL + comment.Issue.Key)
 	}
 
-	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
-	return channelName, message.MessageEmbed, nil
+	return utils.NormalizeChannelName(comment.Issue.Fields.Project.Name), message.MessageEmbed, nil
 }
 
 func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
-	var comment Comment
+	var comment jira.CommentWrapper
 	err := json.Unmarshal(body, &comment)
 	if err != nil {
 		return "", nil, err
@@ -202,6 +183,5 @@ func commentUpdated(body []byte) (string, *discordgo.MessageEmbed, error) {
 		message = message.SetURL(env.Configuration().BaseURL + comment.Issue.Key)
 	}
 
-	channelName = strings.Replace(comment.Issue.Fields.Project.Name, " ", "-", 3)
-	return channelName, message.MessageEmbed, nil
+	return utils.NormalizeChannelName(comment.Issue.Fields.Project.Name), message.MessageEmbed, nil
 }
