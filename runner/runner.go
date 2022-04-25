@@ -55,8 +55,8 @@ func Run() {
 		address = a
 	}
 
-	http.HandleFunc("/webhook", webhookHandler)
-	http.HandleFunc("/hc", healthCheckHandler)
+	http.HandleFunc("/jira/webhook", webhookHandler)
+	http.HandleFunc("/jira/hc", healthCheckHandler)
 	log.Printf("Server listening on %s", address)
 	if err := http.ListenAndServe(address, nil); err != nil {
 		log.Printf("[ERROR] %s", err.Error())
